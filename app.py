@@ -8,6 +8,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 
 db = SQLAlchemy(app)
 
+#Modelagem
+#Produto(id, name, price, description)
+
+class Product(db.Model):
+   id = db.Column(db.Integer, primary_key=True) #modelando a coluna, primary_key é única pois id é o identificado do produto
+   name = db.Column(db.String(120), nullable=False) # nullable=False > não quer que esse parâmetro seja nulo/opcional
+   price = db.Column(db.Float, nullable=False) # nullable=False > não quer que esse parâmetro seja nulo/opcional
+   description = db.Column(db.Text, nullable=True) #Text para nao ter limite de caractere como na String; nullable=True pode ser opcional
+
 #Definir uma rota raiz(página inicial da api) e a função que será executada ao requisitar
 
 @app.route('/')
