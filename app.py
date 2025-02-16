@@ -20,7 +20,7 @@ class Product(db.Model):
 #Definir rota para adicionar produtos- pegar o que está na documentação swagger.yaml
 #Definiu também o método que irá aceitar "POST"
 
-@app.route('/api/poducts/add', methods=["POST"])
+@app.route('/api/products/add', methods=["POST"])
 def add_product():
    data = request.json 
 
@@ -33,9 +33,26 @@ def add_product():
       db.session.add(product)
       db.session.commit()
       #retorna uma resposta em json e não precisa adicionar o codigo 200, pois já é automático
-      return jsonify({"message": "Product add successfully"})
+      return jsonify({"message": "Product add successfully!"})
    #else retorna uma resposta em json e precisa adicionar o codigo 400
-   return jsonify({"message": "Invalid product data"}), 400
+   return jsonify({"message": "Invalid product data."}), 400
+
+#DELETAR PRODUTO
+
+@app.route('/api/products/delete/<int:product_id>', methods=["DELETE"])
+def delete_product(product_id):
+
+   #Recuperar o produto da base de dados
+   #Verificar se o produto existe
+   #Se existe: apagar da base de dados
+   #Se não existe: retornar erro 404 Not found
+
+   product = Product.query.get(product_id)
+   if product: #se produto existe
+      db.session.delete(product)
+      db.session.commit()
+      return jsonify({"message": "Product deleted successfully!"})
+   return jsonify({"message": "Product not found!"}), 404
 
 #Definir uma rota raiz(página inicial da api) e a função que será executada ao requisitar
 
