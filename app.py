@@ -1,6 +1,6 @@
 #Importação
 
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) #instancia o caminho do flask
@@ -16,6 +16,14 @@ class Product(db.Model):
    name = db.Column(db.String(120), nullable=False) # nullable=False > não quer que esse parâmetro seja nulo/opcional
    price = db.Column(db.Float, nullable=False) # nullable=False > não quer que esse parâmetro seja nulo/opcional
    description = db.Column(db.Text, nullable=True) #Text para nao ter limite de caractere como na String; nullable=True pode ser opcional
+
+#Definir rota para adicionar produtos- pegar o que está na documentação swagger.yaml
+#Definiu também o método que irá aceitar "POST"
+
+@app.route('/api/poducts/add', methods=["POST"])
+def add_product():
+   data = request.json 
+   return data
 
 #Definir uma rota raiz(página inicial da api) e a função que será executada ao requisitar
 
