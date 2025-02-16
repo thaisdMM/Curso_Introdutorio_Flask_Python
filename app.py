@@ -1,6 +1,6 @@
 #Importação
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__) #instancia o caminho do flask
@@ -23,13 +23,19 @@ class Product(db.Model):
 @app.route('/api/poducts/add', methods=["POST"])
 def add_product():
    data = request.json 
-   #criar o produto > pega o que o cliente escrever; no description pode retornar o que o cliente escreveu ou vazio
-   product = Product(name=data["name"], price=data["price"], description=data.get("description", "")) 
-  
-   # adicionar o produto no banco de dados
-   db.session.add(product)
-   db.session.commit()
-   return "Produto cadastrado com sucesso!"
+
+   if 'name' in data and 'price' in data:
+      #CONDIÇÃO
+      #criar o produto > pega o que o cliente escrever; no description pode retornar o que o cliente escreveu ou vazio
+      product = Product(name=data["name"], price=data["price"], description=data.get("description", "")) 
+   
+      # adicionar o produto no banco de dados
+      db.session.add(product)
+      db.session.commit()
+      #retorna uma resposta em json e não precisa adicionar o codigo 200, pois já é automático
+      return jsonify({"message": "Product add successfully"})
+   #else retorna uma resposta em json e precisa adicionar o codigo 400
+   return jsonify({"message": "Invalid product data"}), 400
 
 #Definir uma rota raiz(página inicial da api) e a função que será executada ao requisitar
 
