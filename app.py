@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce.db'
 
 db = SQLAlchemy(app)
 
-#Modelagem
+#Modelagem > Linha: registro - Coluna: informações
 #Produto(id, name, price, description)
 
 class Product(db.Model):
@@ -26,4 +26,3 @@ def hello_world():
 #rodar a api e o debug usado para desenvolvimento, nao produção(disponibilizado para usuário)
 if __name__ == "__main__":
    app.run(debug=True) 
-
